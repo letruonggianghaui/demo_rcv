@@ -12,6 +12,7 @@ function updateDatabase(){
         var answer4 = document.getElementById(i + 'a4').value;
         var correct = document.getElementById('correct' + i).value;
         var answers = [answer1, answer2, answer3, answer4];
+        
         questions.push({"question": question, "answers": answers, "correct": correct})
     }
     
@@ -44,16 +45,16 @@ function addQuestion(){
     var correctLabel = document.createElement('label');
     var correctField = document.createElement('input');
     
+
     questionLabel.innerHTML = "Question " + String(questionNum) + ": ";
     questionField.setAttribute('class', 'question');
     questionField.setAttribute('id', 'q' + String(questionNum));
     questionField.setAttribute('type', 'text');
-    
     answer1Label.innerHTML = "Answer 1: ";
     answer2Label.innerHTML = " Answer 2: ";
     answer3Label.innerHTML = "Answer 3: ";
     answer4Label.innerHTML = " Answer 4: ";
-    correctLabel.innerHTML = "Correct Answer (1-4): ";
+    correctLabel.innerHTML = "Correct Answer";
     
     answer1Field.setAttribute('id', String(questionNum) + "a1");
     answer1Field.setAttribute('type', 'text');
@@ -64,32 +65,43 @@ function addQuestion(){
     answer4Field.setAttribute('id', String(questionNum) + "a4");
     answer4Field.setAttribute('type', 'text');
     correctField.setAttribute('id', 'correct' + String(questionNum));
-    correctField.setAttribute('type', 'number');
-    
+    correctField.setAttribute('type', 'text');
+
+
     newQuestionDiv.setAttribute('id', 'question-field');//Sets class of div
     
     newQuestionDiv.appendChild(questionLabel);
     newQuestionDiv.appendChild(questionField);
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(document.createElement('br'));
     newQuestionDiv.appendChild(answer1Label);
     newQuestionDiv.appendChild(answer1Field);
+    answer1Field.setAttribute('style', 'display: None')
+    answer1Label.setAttribute('style', 'display: None')
+    answer1Field.setAttribute('value','Ans1')
     newQuestionDiv.appendChild(answer2Label);
     newQuestionDiv.appendChild(answer2Field);
-    newQuestionDiv.appendChild(document.createElement('br'));
-    newQuestionDiv.appendChild(document.createElement('br'));
+    answer2Field.setAttribute('style', 'display: None')
+    answer2Label.setAttribute('style', 'display: None')
+    answer2Field.setAttribute('value','Ans2')
     newQuestionDiv.appendChild(answer3Label);
     newQuestionDiv.appendChild(answer3Field);
+    answer3Field.setAttribute('style', 'display: None')
+    answer3Label.setAttribute('style', 'display: None')
+    answer3Field.setAttribute('value','Ans3')
     newQuestionDiv.appendChild(answer4Label);
     newQuestionDiv.appendChild(answer4Field);
+    answer4Field.setAttribute('style', 'display: None')
+    answer4Label.setAttribute('style', 'display: None')
+    answer4Field.setAttribute('value','Ans4')
     newQuestionDiv.appendChild(document.createElement('br'));
     newQuestionDiv.appendChild(document.createElement('br'));
     newQuestionDiv.appendChild(correctLabel);
     newQuestionDiv.appendChild(correctField);
-    
     questionsDiv.appendChild(document.createElement('br'));//Creates a break between each question
     questionsDiv.appendChild(newQuestionDiv);//Adds the question div to the screen
     
+    newQuestionDiv.appendChild(document.createElement('br'));
+    newQuestionDiv.appendChild(document.createElement('br'));
+
     newQuestionDiv.style.backgroundColor = randomColor();
 }
 

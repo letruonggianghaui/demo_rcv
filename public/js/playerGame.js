@@ -23,7 +23,7 @@ socket.on('noGameFound', function(){
 function answerSubmitted(num){
     if(playerAnswered == false){
         playerAnswered = true;
-        
+        console.log("num is: ",num);
         socket.emit('playerAnswer', num);//Sends player answer to server
         
         //Hiding buttons from user

@@ -96,7 +96,6 @@ io.on('connection', (socket) => {
                     var answer3 = res[0].questions[0].answers[2];
                     var answer4 = res[0].questions[0].answers[3];
                     var correctAnswer = res[0].questions[0].correct;
-                    
                     socket.emit('gameQuestions', {
                         q1: question,
                         a1: answer1,
@@ -216,6 +215,7 @@ io.on('connection', (socket) => {
         var hostId = player.hostId;
         var playerNum = players.getPlayers(hostId);
         var game = games.getGame(hostId);
+        console.log("num is: ", num);
         if(game.gameData.questionLive == true){//if the question is still live
             player.gameData.answer = num;
             game.gameData.playersAnswered += 1;
@@ -232,8 +232,8 @@ io.on('connection', (socket) => {
                     if (err) throw err;
                     var correctAnswer = res[0].questions[gameQuestion - 1].correct;
                     //Checks player answer with correct answer
-                    if(num == correctAnswer){
-                        player.gameData.score += 100;
+                    if(num == 1){
+                        player.gameData.score += 10;
                         io.to(game.pin).emit('getTime', socket.id);
                         socket.emit('answerResult', true);
                     }
@@ -270,7 +270,7 @@ io.on('connection', (socket) => {
         time = time * 100;
         var playerid = data.player;
         var player = players.getPlayer(playerid);
-        player.gameData.score += time;
+        //player.gameData.score += time;
     });
     
     
@@ -332,7 +332,6 @@ io.on('connection', (socket) => {
                         var answer3 = res[0].questions[questionNum].answers[2];
                         var answer4 = res[0].questions[questionNum].answers[3];
                         var correctAnswer = res[0].questions[questionNum].correct;
-
                         socket.emit('gameQuestions', {
                             q1: question,
                             a1: answer1,
@@ -340,8 +339,7 @@ io.on('connection', (socket) => {
                             a3: answer3,
                             a4: answer4,
                             correct: correctAnswer,
-                            playersInGame: playerData.length
-                        });
+                            playersInGame: playerData.length                        });
                         db.close();
                     }else{
                         var playersInGame = players.getPlayers(game.hostId);
@@ -350,7 +348,7 @@ io.on('connection', (socket) => {
                         var third = {name: "", score: 0};
                         var fourth = {name: "", score: 0};
                         var fifth = {name: "", score: 0};
-                        
+
                         for(var i = 0; i < playersInGame.length; i++){
                             console.log(playersInGame[i].gameData.score);
                             if(playersInGame[i].gameData.score > fifth.score){
@@ -428,6 +426,18 @@ io.on('connection', (socket) => {
         io.to(game.pin).emit('nextQuestionPlayer');
     });
     
+    socket.on('showStanding', function()
+    {
+        var game = games.getGame(socket.id);
+        var data = players.getPlayers(game.hostId); 
+
+        var sortedData = data.slice().sort(function(a, b) {
+            return b.gameData.score - a.gameData.score;
+          });
+        console.log("socre: ", sortedData[0].gameData.score);
+        socket.emit('newStanding', sortedData);
+    });
+
     //When the host starts the game
     socket.on('startGame', () => {
         var game = games.getGame(socket.id);//Get the game based on socket.id
