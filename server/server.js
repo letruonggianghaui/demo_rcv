@@ -23,12 +23,13 @@ const url = "mongodb+srv://luongxuongcho123:Snowdesert1@cluster1.wt1fl.mongodb.n
 
 
 
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static(publicPath));
 
 //Starting server on port 3000
-server.listen(3000, () => {
-    console.log("Server started on port 3000");
+server.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });
 
 //When a connection to server is made from client
